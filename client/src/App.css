@@ -1,0 +1,12 @@
+/* .h1 {
+    color: rgb(78, 78, 78);
+} */
+.h1 {
+    color: rgb(76, 76, 244);
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0%;
+    margin: 0%;
+}
