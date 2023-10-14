@@ -1,24 +1,23 @@
-import { InputBase, styled, Box, List, ListItem, Typography, Badge } from "@mui/material";
+import { InputBase, styled, Box, List, ListItem, Typography, Badge, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
-import { FaSistrix, FaAngleDown, FaShoppingCart } from 'react-icons/fa';
-import LoginDialog from "../login/LoginDialog";
-import { useContext } from "react";
-import { DataContext } from "../../context/DataProvider";
-import Profile from "./profile";
+import { FaSistrix } from 'react-icons/fa';
 import { useDispatch, useSelector } from "react-redux";
-import { getProdDetails } from "../../redux/detailSlice";
 import { getProducts } from "../../redux/productSlice";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import MicNoneIcon from '@mui/icons-material/MicNone';
+import ClearIcon from '@mui/icons-material/Clear';
 
 
 
 const URL = 'http://localhost:8000';
-const Search = () => {
+const Search = (props) => {
+    const [cond, SetCond] = useState(null);
 
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
+
 
     const getProd = async () => {
         console.log(1);
@@ -28,6 +27,7 @@ const Search = () => {
     }
 
     const [prodId, SetprodId] = useState(null);
+    const [MicWork, SetMicWork] = useState(false);
 
     useEffect(() => {
         getProd();
@@ -48,7 +48,6 @@ const Search = () => {
         // }
     }
 
-    const { account, setAccount } = useContext(DataContext);
     const [text, SetText] = useState('');
 
 
@@ -59,93 +58,87 @@ const Search = () => {
         setOpen(true);
     }
 
+    // SetText(props.search);
+
+    useEffect(() => {
+        SetText(props.speech);
+    }, [props.speech])
+
     const getInput = (e) => {
         SetText(e.target.value);
         console.log(text);
     }
 
+    const ShowMicBox = () => {
+        props.fun(true);
+    }
+
     // const navToProd = (id) => {
     //     useNavigate(`/products/${id}`);
     // }
-
+    console.log(props.speech);
     const { product } = useSelector(state => state);
     const { cart } = useSelector(state => state);
     let cartLength = cart.products.length;
+    console.log(props.speech);
+
+    const ClearSearch = () => {
+        SetText('');
+    }
+
+    const SearchApplied = () => {
+        navigate(`/category/${text}`);
+        SetText('');
+    }
+
+    var pressed = document.getElementById("KeyPressed");
+    if (pressed) {
+        pressed.addEventListener("keypress", function (event) {
+            if (event.key == "Enter") {
+                SearchApplied();
+            }
+        })
+    }
+
 
     return (
         <>
             <Nubox>
                 <SearchLine>
+                    <Styledinput placeholder="Search E-Bazaar" onChange={getInput} value={text} id="KeyPressed" ></Styledinput>
+                    {text &&
+                        <ClearIc onClick={() => ClearSearch()}>
+                            <ClearIcon />
+                        </ClearIc>
 
-
-                    <Styledinput placeholder="Search for products, brands and more" onChange={getInput}>
-
-                    </Styledinput>
+                    }
                     <Icbox>
-                        <FaSistrix />
+                        <SepLine></SepLine>
+
+                        <FaSistrix style={{ marginLeft: `10px`, marginTop: `8px`, cursor: `pointer` }} onClick={() => SearchApplied()} />
+                        <MicNoneIcon style={{ marginLeft: `12px`, marginTop: `8px`, cursor: `pointer`, fontSize: `1.6rem` }} onClick={ShowMicBox} />
                     </Icbox>
                 </SearchLine>
                 {
-
                     text &&
+                    <ListBox className="scrolly">
+                        {(product[0].filter(prod => prod.title.longTitle.toLowerCase().includes(text.toLowerCase())).length === 0 &&
+                            product[0].filter(prod => prod.tagline.toLowerCase().includes(text.toLowerCase())).length === 0)
+                            ?
+                            <NoElements>No results found</NoElements>
+                            :
 
-                    <ListBox>
-                        {
                             product[0].filter(prod => prod.title.longTitle.toLowerCase().includes(text.toLowerCase())).map((items) => (
                                 <ListElements onClick={() => handleSubmit(items.id)}>
                                     {items.title.longTitle}
                                 </ListElements>
                             ))
                         }
+
                     </ListBox>
                 }
-            </Nubox>
-
-            <List>
-                <Libox>
-                    <ListItem>
-                        {account ? <Profile account={account} setAccount={setAccount} />
-                            :
-                            <Logbox>
-                                <Lotype onClick={() => LogClick()}>Login</Lotype>
-                            </Logbox>
-                        }
-
-                    </ListItem>
-                    <ListItem>
-
-                        <Box>
-                            <Besell>
-                                <Betype style={{ fontFamily: `'Source Sans 3', sans-serif` }}>Become a Seller</Betype>
-                            </Besell>
-
-                        </Box>
-                    </ListItem>
-                    <ListItem>
-                        <Morebox style={{ fontFamily: `'Source Sans 3', sans-serif` }}>
-                            More
-                            <MoreIcBox>
-                                <FaAngleDown />
-                            </MoreIcBox>
-                        </Morebox>
-                    </ListItem>
-                    <Link to="/cart" style={{ textDecoration: `none`, color: `white`, marginTop: `5px` }}>
-                        <ListItem>
-                            <CartIcBox>
-                                <Badge badgeContent={cartLength} color="primary" style={{ paddingTop: `2px`, fontSize: `0.5rem` }}>
-                                    <FaShoppingCart style={{ fontSize: `1rem` }} />
-                                </Badge>
-                            </CartIcBox>
-                            {/* <Typography style={{ fontFamily: `'Source Sans 3', sans-serif` }}>Cart</Typography> */}
-                        </ListItem>
-                    </Link>
-                </Libox>
-
-                <LoginDialog open={open} setOpen={setOpen} />
-
-            </List>
-
-
+            </Nubox >
+            {/* <CustomButtons /> */}
         </>
 
     );
@@ -153,102 +146,88 @@ const Search = () => {
 
 export default Search;
 
+const ClearIc = styled(IconButton)`
+padding-right : 4px;
+    color : #000;
+    font-size:1.7rem;
+`
+
+const SepLine = styled('span')`
+border-left:2px solid #000;
+height:30px;
+position: absolute;
+margin-top: 5px;
+`
+
 const SearchLine = styled(Box)`
 display : flex;
+padding-right:0.2rem;
+height:2.5rem;
 `
 
 const ListBox = styled(List)`
-position : absolute;
+position:absolute;
+width:58%;
+min-width: 20rem;
+padding-rigth:40%;
+max-height:30rem;
+overflow-y: auto;
 `
 const ListElements = styled(ListItem)`
 background-color: #FFF;
 color: #000;
+font-family: 'Roboto', sans-serif;
+cursor : pointer;
+font-size:1.1rem;
+padding:20px;
+max-height:10rem;
+&:hover {
+    background-color: rgb(222, 222, 222);
+}
+`
+
+const NoElements = styled(ListItem)`
+background-color: #EBEBEB;
+color: #000;
 height: auto;
 font-family: 'Roboto', sans-serif;
-width : 530px;
 cursor : pointer;
+font-size:1.1rem;
+padding:20px;
 
 &:hover {
     background-color: rgb(222, 222, 222);
 }
 `
 
-const Nubox = styled(Box)`
-    margin-left : 20px;
-    background-color : #FFF;
-    // display : flex;
-    
 
-    `
+const Nubox = styled(Box)(({ theme }) => ({
+    marginLeft: '3rem',
+    backgroundColor: '#FFF',
+    // display : flex;
+    width: '62.5%',
+    minWidth: '15rem',
+    marginTop: '5px',
+    [theme.breakpoints.down('lg')]: {
+        width: '83%',
+        paddingRight: '3%'
+    }
+}))
+
+
 
 const Styledinput = styled(InputBase)`
     margin-left: 10px;
     color : #000;
-    width : 500px;
+    width:100%;
+   
     `
 
-const Icbox = styled(Box)`
+const Icbox = styled('i')`
     
-    
-    padding-top: 8px;
     padding-right : 4px;
     color : #000;
+    font-size:1.5rem;
+    display:flex;
     `
 
-const Libox = styled(Box)`
-    display: flex;
-    flex-direction : row;
-    margin-left: 35px;
-
-    `
-const Logbox = styled(Box)`
-    background-color: #FFF;
-    width : 110px;
-    height : 30px;
-    cursor: pointer;
-    `
-const Lotype = styled(Typography)`
-    color : #000;
-    text-align : center;
-    font-size: 16px;
-    font-weight : 600;
-    padding-top : 2px;
-    cursor : pointer;
-    `
-const Besell = styled(Box)`
-    // background-color: #FFF;
-    display : flex;
-    flex-direction : row;
-    width : 180px;
-    height : 30px;
-    overflow : hidden;
-    padding-right:0px;
-    border: 1px solid #FFF;
-    
-    `
-
-const Betype = styled(Typography)`
-    padding-left: 30px;
-    padding-top: 2px;
-    `
-
-const MoreIcBox = styled(Box)`
-    padding-left: 3px;
-    position : relative;
-    top:5px;
-    font-size: 0.85rem;
-    
-    `
-
-const Morebox = styled(Box)`
-    display: flex;
-    flex-direction : row;
-    margin-left: 5px;
-
-    
-    `
-
-const CartIcBox = styled(Box)`
-    padding: 0.1rem 0.35rem;
-    
-    `

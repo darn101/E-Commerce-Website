@@ -9,18 +9,26 @@ export const navData = [
 ];
 
 export const bannerData = [
-    { id: 1, url: 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/0b212f118883485.6092425f50616.jpg' },
-    { id: 2, url: 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/f19216118883485.6092425f52680.jpg' },
-    { id: 3, url: 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/e534f6118883485.6092425f51d79.jpg' },
+    { id: 8, url: 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/0b212f118883485.6092425f50616.jpg' },
+    { id: 10, url: 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/f19216118883485.6092425f52680.jpg' },
+    { id: 9, url: 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/e534f6118883485.6092425f51d79.jpg' },
 
 ]
 
 export const bannerDataTwo = [
-    { id: 1, url: 'https://as2.ftcdn.net/v2/jpg/04/89/28/05/1000_F_489280525_nISHfaWCctYBFlyYkTQUkzQwVOPWmyvp.jpg' },
-    { id: 2, url: 'https://img.freepik.com/free-vector/modern-black-friday-sale-banner-template-with-3d-background-red-splash_1361-1877.jpg?w=1380&t=st=1692440676~exp=1692441276~hmac=4a9e2f207ca7212a8038e250463be86c4033349d1524253df7c9c20a14d748c3' },
-    { id: 3, url: 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/d80af4118883485.6092425f50c79.jpg' },
+    { id: 12, url: 'https://as2.ftcdn.net/v2/jpg/04/89/28/05/1000_F_489280525_nISHfaWCctYBFlyYkTQUkzQwVOPWmyvp.jpg' },
+    { id: 13, url: 'https://img.freepik.com/free-vector/modern-black-friday-sale-banner-template-with-3d-background-red-splash_1361-1877.jpg?w=1380&t=st=1692440676~exp=1692441276~hmac=4a9e2f207ca7212a8038e250463be86c4033349d1524253df7c9c20a14d748c3' },
+    { id: 11, url: 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/d80af4118883485.6092425f50c79.jpg' },
 
 ]
+
+export const bannerDataThree = [
+    { id: 14, url: 'https://marketplace.canva.com/EAFoustdoMc/1/0/1600w/canva-beige-aesthetic-fashion-style-banner-landscape-k4EiS0uPqD0.jpg' },
+    { id: 15, url: 'https://i.pinimg.com/originals/37/12/e4/3712e4921086beef88529eccdd522a0a.png' },
+    { id: 16, url: 'https://assets.materialup.com/uploads/633bded8-0725-44ac-896a-f146ae12023a/attachment.jpg' },
+
+]
+
 
 
 

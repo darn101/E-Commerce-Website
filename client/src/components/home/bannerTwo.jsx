@@ -1,11 +1,13 @@
-import { Box } from "@mui/system";
-import styled from "@emotion/styled";
+import { Box, styled } from "@mui/system";
 
 import { bannerDataTwo } from "../../constants/data";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { useNavigate } from "react-router-dom";
 
 const BannerTwo = () => {
+
+  const navigate = useNavigate();
 
   const responsive = {
     desktop: {
@@ -21,6 +23,12 @@ const BannerTwo = () => {
       items: 1
     }
   };
+
+  const BannerClick = (id) => {
+    console.log(id);
+    navigate(`/products/product${id}`);
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }
 
 
   return (
@@ -40,8 +48,8 @@ const BannerTwo = () => {
 
           {
             bannerDataTwo.map((data) => (
-              <SlideImgBox>
-                <img src={data.url} alt="banner" style={{ height: 380, width: 1380 }} />
+              <SlideImgBox onClick={() => BannerClick(data.id)}>
+                <Imagez src={data.url} alt="banner" />
               </SlideImgBox>
             ))
           }
@@ -52,18 +60,27 @@ const BannerTwo = () => {
 };
 
 const SlideImgBox = styled(Box)`
-
-
+cursor : pointer;
 `
+const Imagez = styled('img')(({ theme }) => ({
+  height: '350px',
+  width: '100%',
+  [theme.breakpoints.down('md')]: {
+    height: '300px',
+  },
+  [theme.breakpoints.down('sm')]: {
+    height: '250px',
+  },
+}))
+
+
 const SlideImg = styled(Box)`
 width: 100%;
 `
 const CarouseBox = styled(Box)`
-padding: 2rem 0rem 10rem 0rem;
+padding: 1rem 0rem 2rem 0rem;
 width: 90%;
-height: 5rem;
-margin-left: 5rem;
-
+margin-left: 5%;
 `
 
 export default BannerTwo;

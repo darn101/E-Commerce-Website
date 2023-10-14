@@ -1,35 +1,46 @@
 import { navData } from "../../constants/data";
 import { Box, styled } from "@mui/system";
 import { Typography } from "@mui/material";
+import { Link, useParams } from "react-router-dom";
 const Navbar = () => {
+    const ToTop = () => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    }
+
+    const Navbox = styled(Box)(({ theme }) => ({
+        display: 'flex',
+        flexDirection: 'row',
+        // padding-left : 8rem;
+        marginLeft: '5%',
+        paddingRight: '7%',
+
+        overflowX: 'hidden',
+        justifyContent: 'space-between',
 
 
-    const Ibox = styled(Box)`
-    margin-right: 4rem;
-    `
+        [theme.breakpoints.down('lg')]: {
+            marginLeft: '0%',
+            paddingRight: '3.25%',
+            '&:hover': {
+                overflowX: 'scroll',
+            },
+        }
 
-    const Navbox = styled(Box)`
-    display : flex;
-    flex-direction : row;
-    padding-left : 8rem;
-    padding-right: 3rem;
-    `
 
-    const Navtype = styled(Typography)`
-    text-align : center;
-    font-weight : 700;
-    font-size : 1.1rem;
-    cursor : pointer;
-    
-    `
+    }))
+
+
+
     return (
         <Navbox>
             {
                 navData.map((data) => (
-                    <Ibox>
-                        <img src={data.url} alt="" style={{ height: 150, width: 150 }} />
-                        <Navtype>{data.text}</Navtype>
-                    </Ibox>
+                    <Link to={`/category/${data.text}`} style={{ textDecoration: `none`, color: `#000` }} onClick={() => ToTop()}>
+                        <Ibox>
+                            <img src={data.url} alt="" style={{ height: 150, width: `100%`, minWidth: `10rem` }} />
+                            <Navtype>{data.text}</Navtype>
+                        </Ibox>
+                    </Link>
                 ))
             }
         </Navbox>
@@ -37,3 +48,15 @@ const Navbar = () => {
     );
 }
 export default Navbar;
+
+const Ibox = styled(Box)`
+    // margin-right: 6%;
+    text-align : center;
+    cursor:pointer;
+    `
+
+const Navtype = styled(Typography)`
+    white-space: nowrap;
+    font-weight : 700;
+    font-size : 1.1rem;
+    `

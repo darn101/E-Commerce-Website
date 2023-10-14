@@ -8,8 +8,15 @@ const ProductSchema = new mongoose.Schema({
     },
     url: String,
     detailUrl: String,
-    title: Object,
-    price: Object,
+    title: {
+        shortTitle: String,
+        longTitle: String
+    },
+    price: {
+        cost: Number,
+        discount: String,
+        mrp: Number,
+    },
     quantity: Number,
     description: String,
     discount: String,

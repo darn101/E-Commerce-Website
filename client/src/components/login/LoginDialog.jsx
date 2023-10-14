@@ -5,14 +5,14 @@ import { useContext } from "react";
 import { DataContext } from "../../context/DataProvider";
 
 const InitialSignUpData = {
-  username: "",
-  email: "",
-  password: "",
+  username: '',
+  email: '',
+  password: '',
 };
 
 const InitialLoginData = {
-  username: "",
-  password: "",
+  username: '',
+  password: '',
 };
 
 const LoginDialog = ({ open, setOpen }) => {
@@ -29,9 +29,16 @@ const LoginDialog = ({ open, setOpen }) => {
   const [logClick, SetLogClick] = useState(false);
 
   const LeftChange = () => {
+    setSignup('');
+    console.log(signup);
     SetisSign(true);
     SetError('');
+    setLogin('');
   };
+
+  const ChangeToSignUp = () => {
+    SetisSign(false);
+  }
 
   const HandleClose = () => {
     setOpen(false);
@@ -43,8 +50,10 @@ const LoginDialog = ({ open, setOpen }) => {
   };
 
   const InputChange = (e) => {
+    e.preventDefault();
     const { name, value } = e.target;
     setSignup({ ...signup, [name]: value });
+    SetUserExsists(false);
   };
 
   const SignValidate = () => {
@@ -66,11 +75,16 @@ const LoginDialog = ({ open, setOpen }) => {
     SetError(errors);
     try {
       const response = await authenticateSignup(signup);
+      console.log(response);
       if (response.status === 200) {
         let logval = response.data.message[0].username;
         setAccount(logval);
         HandleClose();
       }
+      else {
+        SetUserExsists(true);
+      }
+
 
     }
     catch (e) {
@@ -81,7 +95,7 @@ const LoginDialog = ({ open, setOpen }) => {
 
   const LoginChange = (e) => {
     const { name, value } = e.target;
-    SetError({ ...Error, [name]: null });
+    // SetError({ ...Error, [name]: null });
     setLogin({ ...login, [name]: value })
   }
 
@@ -108,6 +122,7 @@ const LoginDialog = ({ open, setOpen }) => {
     }
 
   })
+
 
   const LoginTo = async () => {
     const errors = validate();
@@ -145,7 +160,7 @@ const LoginDialog = ({ open, setOpen }) => {
     >
       <Logbox>
         <Inbox>
-          <Leftbox>
+          <Leftbox style={{ fontFamily: `'Roboto', sans-serif` }}>
             {isSign ? (
               <Leftinfo>
                 <LogHeadBox>
@@ -168,16 +183,21 @@ const LoginDialog = ({ open, setOpen }) => {
             {isSign ? (
               <Logfields>
                 <RightHead>Sign Up to E-Bazaar</RightHead>
-                <InputFields label='Username' onChange={(e) => InputChange(e)} name='username' variant='standard' error={!!Error.username} helperText={!!Error.username && Error.username}></InputFields>
-                <InputFields label='Email' onChange={(e) => InputChange(e)} name='email' variant='standard' error={!!Error.email} helperText={!!Error.email && Error.email}></InputFields>
+                <RightDesc>Create your account and start shopping</RightDesc>
+                <InputFields label='Username' onChange={(e) => InputChange(e)} name='username' variant='standard' error={!!Error.username} helperText={!!Error.username && Error.username} ></InputFields>
+                <InputFields label='Email' onChange={(e) => InputChange(e)} name='email' variant='standard' error={!!Error.email} helperText={!!Error.email && Error.email} ></InputFields>
                 <InputFields type="password" label='Password' onChange={(e) => InputChange(e)} name='password' variant='standard' error={!!Error.password} helperText={!!Error.password && Error.password}></InputFields>
                 {
                   UserExists &&
-                  <Typography>Username already exists</Typography>
+                  <ErrorBox style={{ marginLeft: `5rem` }}><Errtxt>User already exists</Errtxt></ErrorBox>
                 }
                 <Logbutton variant="contained" style={{ textAlign: `center`, bottom: `2px` }} onClick={() => SubmitTo()}>
                   <p style={{ fontSize: `18px`, color: `#fff`, paddingTop: `0px` }}>Continue</p>
                 </Logbutton>
+
+                <Nubox>
+                  <Typography style={{ fontSize: `0.95rem`, fontFamily: `'Ariel', sans-serif` }}>Have an Account?<ClickSign component="span" onClick={() => ChangeToSignUp()}> Login</ClickSign></Typography>
+                </Nubox>
 
               </Logfields>
             ) : (
@@ -185,17 +205,18 @@ const LoginDialog = ({ open, setOpen }) => {
               <Logfields>
                 <RightHead>Welcome back</RightHead>
                 <RightDesc>Start Shopping! Please Enter your details.</RightDesc>
-                <InputFields onChange={(e) => LoginChange(e)} name='username' label='Username' variant='standard' error={!!Error.username} helperText={!!Error.username && Error.username}></InputFields>
-                <InputFields type="password" onChange={(e) => LoginChange(e)} name='password' label='Password' variant='standard' error={!!Error.password} helperText={!!Error.password && Error.password}></InputFields>
                 {
                   showErr &&
                   <ErrorBox>
-                    <Errtxt>Invalid Username or password</Errtxt>
+                    <Errtxt>Invalid Username or password.</Errtxt>
                   </ErrorBox>
                 }
+                <InputFields onChange={(e) => LoginChange(e)} name='username' label='Username' variant='standard' error={!!Error.username} helperText={!!Error.username && Error.username} ></InputFields>
+                <InputFields type="password" onChange={(e) => LoginChange(e)} name='password' label='Password' variant='standard' error={!!Error.password} helperText={!!Error.password && Error.password} ></InputFields>
+
 
                 <Logbutton onClick={LoginTo} variant="contained">
-                  <p style={{ fontSize: `18px`, color: `#fff`, paddingTop: `0px` }}>Login</p>
+                  <p style={{ fontSize: `18px`, color: `#fff` }}>Login</p>
                 </Logbutton>
 
                 <Nubox>
@@ -214,7 +235,7 @@ const RightHead = styled(Typography)`
 font-weight: 550;
 font-family:'Ariel', sans-serif;
 font-size: 1.7rem;
-margin-top:2rem;
+
 `
 
 const RightDesc = styled(Typography)`
@@ -236,8 +257,7 @@ const LoginBox = styled(Box)`
 margin-top: 1px;
 `
 
-const Dialbox = styled(Dialog)`
-width:100%`;
+const Dialbox = styled(Dialog)``;
 
 const Logbox = styled(Box)``;
 
@@ -246,72 +266,63 @@ margin-top:1.5rem;
 `
 
 const LogHeadBox = styled(Box)`
-margin-top:3rem;
+margin-top:4rem;
 padding-left: 1.5rem;
 padding-right:3rem;
 `
 const LoginTxt = styled(Typography)`
 font-family: 'Source Sans 3', sans - serif;
-font-size: 1.6rem;
+font-size: 1.2rem;
 font-weight: 600;
 `
 
 const Inbox = styled(Box)`
 height: 525px;
-width: 675px;
+max-width: 675px;
 display: flex;
 flex-direction: row;
 overflow: hidden;
 x-scroll: none;
 `;
 
-const Leftbox = styled(Box)`
-width: 38rem;
-background: #000;
-font-family: 'Roboto', sans-serif;
-font-weight:100;
-font-size:1rem;
-padding-right:5px;
-`;
+const Leftbox = styled(Box)(({ theme }) => ({
+  // width: '38rem',
+  width: '40%',
+  background: '#000',
+  fontWeight: '100',
+  fontSize: '1rem',
+  paddingRight: '5px',
+  [theme.breakpoints.down('md')]: {
+    display: 'none'
+  }
+}))
+
+
 
 const Rightbox = styled(Box)`
-margin-top:rem;
-width:50rem
+width:30%;
+margin-top:2rem;
+padding:0rem 2rem;
 `;
 
 const Logfields = styled(Box)`
 margin-top: 25px;
-padding-left: 2.5rem;
-padding-right: 2.5rem;
+// padding-right: 2.5rem;
 display: flex;
 flex-direction: column;
-width: 375px;
+width: 340px;
 `;
 
 const Logbutton = styled(Button)`
 height: 40px;
 width: 100%;
-padding-bottom: 0px;
+padding : 7px;
 background: #000;
-margin-top: 2rem;
+margin-top: 1.8rem;
 text-align: center;
 position: relative;
-padding-top: 0px;
 `;
 
-
-const Parabox = styled(Box)`
-margin-top: 2rem;
-`;
-
-
-const Logbutt = styled(Box)`
-background-color: #000;
-margin-top: 0px;
-text-align: center;
-position: relative;
-margin-top: 1rem;
-`;
 
 const Nubox = styled(Box)`
 margin-top: 1.5rem;
@@ -328,13 +339,19 @@ fontfamily: Arial;
 `;
 
 const ErrorBox = styled(Box)`
-color: red;
+color: rgb(245, 95, 82);
 width : fit-content;
-margin-left:20px;
+text-align : center;
 margin-top:1rem;
-text-decoration : underline;
+border : 1px solid red;
+width: auto;
+background-color: rgb(255, 208, 204);
+border-radius: 5px;
+margin-bottom : 1rem;
 `
 const Errtxt = styled(Typography)`
+fontfamily: Arial;
+padding:7px;
 `
 
 export default LoginDialog;

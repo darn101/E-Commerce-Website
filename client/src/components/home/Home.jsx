@@ -12,6 +12,9 @@ import { getProducts } from "../../redux/productSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import BannerTwo from "./bannerTwo";
 import Footer from "../footer/footer";
+import SlideTwo from "./slideTwo";
+import BannerThree from "./bannerThree";
+import SlideThree from "./slideThree";
 
 const URL = 'http://localhost:8000';
 
@@ -35,14 +38,16 @@ const Home = () => {
 
     return (<>
         <Provider store={store}>
-            <Box style={{ marginTop: 10 }}>
+            <Box style={{ marginTop: `5rem` }}>
                 <Navbar />
             </Box>
-            <Box>
+            <Box style={{ marginTop: `1rem` }} >
                 <Banner />
                 <Slide data={data} />
                 <BannerTwo />
-                <Slide data={data} />
+                <SlideTwo data={data} />
+                <BannerThree />
+                <SlideThree data={data} />
             </Box>
         </Provider>
     </>);

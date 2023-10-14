@@ -46,10 +46,11 @@ const Slide = ({ data }) => {
                     draggable={false}
                 >
                     {data.length > 0 &&
-                        data[0].map((item) => (
+                        data[0].map((item, index) => (
+                            index < 6 &&
                             <SlideBox>
                                 <Link to={`/products/${item.id}`} style={{ textDecoration: `none`, color: `#000` }} onClick={() => ToTop()}>
-                                    <Image src={item.url} alt="" />
+                                    <Image src={item.url} alt="{ite,title.shortTitle}" />
                                     <ImgTxtBox>
                                         <ImgTitle>{item.title.shortTitle}</ImgTitle>
                                         <ImgDeal>{item.discount}</ImgDeal>
@@ -60,7 +61,7 @@ const Slide = ({ data }) => {
                         ))
                     }
                 </Carousel>
-            </CarouseBox>
+            </CarouseBox >
         </>
     );
 };
@@ -70,20 +71,19 @@ export default Slide;
 
 
 const CarouseBox = styled(Box)`
-margin-top:5rem;
-margin-bottom: 5rem;
-padding: 12rem 0rem;
+margin-top:1rem;
+padding: 2rem 0rem;
 width: 88%;
-height: 5rem;
-margin-left: 5rem;
+margin-left: 5%;
 text-align:center;
 
 `
 const SlideBox = styled(Box)`
-
+padding-right: 0.5rem;
+width:100%;
 `
 const Image = styled('img')`
-width: auto;
+width: 12rem;
 height : 200px;
 cursor:pointer;
 `
