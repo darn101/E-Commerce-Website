@@ -20,8 +20,8 @@ export const checkoutPayment = async (req, res) => {
         payment_method_types: ["card"],
         line_items: LineItems,
         mode: 'payment',
-        success_url: 'http://localhost:8000/success',
-        cancel_url: 'http://localhost:8000/success',
+        success_url: '/success',
+        cancel_url: '/success',
     });
 
     res.json({ id: session.id });
