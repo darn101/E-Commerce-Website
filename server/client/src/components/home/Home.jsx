@@ -16,7 +16,7 @@ import SlideTwo from "./slideTwo";
 import BannerThree from "./bannerThree";
 import SlideThree from "./slideThree";
 
-const URL = 'http://localhost:8000';
+const URL = '';
 
 
 const Home = () => {
