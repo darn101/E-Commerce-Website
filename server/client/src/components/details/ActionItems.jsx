@@ -11,7 +11,7 @@ import { loadStripe } from '@stripe/stripe-js';
 
 
 import axios from "axios";
-const URL = 'http://localhost:8000';
+const URL = '';
 
 const ActionItems = ({ details }) => {
     const dispatch = useDispatch();
@@ -42,7 +42,7 @@ const ActionItems = ({ details }) => {
             "Content-type": "application/json"
         }
 
-        const response = await fetch('http://localhost:8000/api/create-checkout-session', {
+        const response = await fetch('/api/create-checkout-session', {
             method: "POST",
             headers: headers,
             body: JSON.stringify(body)

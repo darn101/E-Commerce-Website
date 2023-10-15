@@ -50,7 +50,7 @@ const CartPage = () => {
             "Content-type": "application/json"
         }
 
-        const response = await fetch('http://localhost:8000/api/create-checkout-session', {
+        const response = await fetch('/api/create-checkout-session', {
             method: "POST",
             headers: headers,
             body: JSON.stringify(body)

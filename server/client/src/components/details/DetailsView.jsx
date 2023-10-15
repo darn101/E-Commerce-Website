@@ -11,7 +11,7 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 import { useState } from "react";
 
 
-const URL = 'http://localhost:8000';
+const URL = '';
 
 const DetailsView = () => {
 

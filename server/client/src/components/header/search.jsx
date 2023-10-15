@@ -10,7 +10,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 
 
-const URL = 'http://localhost:8000';
+const URL = '';
 const Search = (props) => {
     const [cond, SetCond] = useState(null);
 

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 
 
-const URL = 'http://localhost:8000';
+const URL = '';
 const Category = () => {
     const [Data, SetData] = useState([]);
 
